@@ -1,0 +1,26 @@
+where  
+  - `g(n)` → cost from start to current node  
+  - `h(n)` → estimated cost from current node to goal  
+
+### D* Lite (Dynamic Extension)
+An optimized variant that **updates only affected nodes** when the environment changes — perfect for real-time scenarios.
+
+---
+
+## 🛠️ Tech Stack
+
+algorithm:
+  type: astar
+  visualization:
+    tool: pygame
+    refresh_rate: 60
+
+
+---
+
+## 🧪 Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/dynamic-path-replanner.git
+   cd dynamic-path-replanner
