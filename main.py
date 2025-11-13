@@ -1,16 +1,27 @@
-# This is a sample Python script.
+import pygame
+import yaml
+from pathfinder import Pathfinder
+import sys
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def load_config(path="config.yaml"):
+    try:
+        with open(path, "r") as file:
+            config = yaml.safe_load(file)
+            return config
+    except FileNotFoundError:
+        print("❌ config.yaml not found. Please make sure it exists.")
+        sys.exit(1)
+    except yaml.YAMLError as e:
+        print(f"❌ YAML parsing error: {e}")
+        sys.exit(1)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+# Main Loop
+def main():
+    config = load_config()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Run App
+if __name__ == "__main__":
+    main()
