@@ -1,0 +1,33 @@
+# ================================
+# 🧭 Dynamic Path Re-Planner Config
+# ================================
+
+grid:
+  width: 40          # number of cells horizontally
+  height: 30         # number of cells vertically
+  cell_size: 20      # pixel size of each cell
+
+colors:
+  start: [0, 255, 0]        # Green - start point
+  goal: [255, 0, 0]         # Red - goal point
+  path: [0, 0, 255]         # Blue - path line
+  obstacle: [80, 80, 80]    # Gray - obstacles
+  background: [255, 255, 255] # White background
+
+algorithm:
+  type: "dstar_lite"        # options: astar, dstar_lite
+  diagonal_movement: false  # allow 8-directional movement or not
+
+visualization:
+  tool: "pygame"            # visualization engine
+  refresh_rate: 60          # FPS
+  show_grid: true           # draw grid lines
+
+interaction:
+  draw_mode: "rectangle"    # can be: line or rectangle
+  clear_key: "c"            # key to clear obstacles
+
+logging:
+  enable: true
+  save_path: "logs/run.log"
+
