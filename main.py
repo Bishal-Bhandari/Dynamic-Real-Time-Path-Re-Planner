@@ -10,10 +10,10 @@ def load_config(path="config.yaml"):
             config = yaml.safe_load(file)
             return config
     except FileNotFoundError:
-        print("❌ config.yaml not found. Please make sure it exists.")
+        print(" config.yaml not found. Please make sure it exists.")
         sys.exit(1)
     except yaml.YAMLError as e:
-        print(f"❌ YAML parsing error: {e}")
+        print(f" YAML parsing error: {e}")
         sys.exit(1)
 
 # Initialize Pygame
