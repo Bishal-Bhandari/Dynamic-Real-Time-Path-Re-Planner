@@ -31,3 +31,11 @@ class Pathfinder:
                         came_from[neighbor] = current
 
         return []
+
+    def reconstruct_path(self, came_from, current):
+        path = [current]
+        while current in came_from:
+            current = came_from[current]
+            path.append(current)
+        path.reverse()
+        return path
