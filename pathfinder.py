@@ -14,3 +14,8 @@ class Pathfinder:
         heapq.heappush(open_list, (0, start))
         came_from = {}
         g_score = {start: 0}
+
+        while open_list:
+            _, current = heapq.heappop(open_list)
+            if current == goal:
+                return self.reconstruct_path(came_from, current)
