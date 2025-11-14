@@ -29,3 +29,5 @@ class Pathfinder:
                         f_score = tentative_g + abs(neighbor[0]-goal[0]) + abs(neighbor[1]-goal[1])
                         heapq.heappush(open_list, (f_score, neighbor))
                         came_from[neighbor] = current
+
+        return []
