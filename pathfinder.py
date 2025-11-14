@@ -19,3 +19,13 @@ class Pathfinder:
             _, current = heapq.heappop(open_list)
             if current == goal:
                 return self.reconstruct_path(came_from, current)
+
+            for dx, dy in [(1,0),(-1,0),(0,1),(0,-1)]:
+                neighbor = (current[0] + dx, current[1] + dy)
+                if 0 <= neighbor[0] < width and 0 <= neighbor[1] < height and neighbor not in obstacles:
+                    tentative_g = g_score[current] + 1
+                    if tentative_g < g_score.get(neighbor, np.inf):
+                        g_score[neighbor] = tentative_g
+                        f_score = tentative_g + abs(neighbor[0]-goal[0]) + abs(neighbor[1]-goal[1])
+                        heapq.heappush(open_list, (f_score, neighbor))
+                        came_from[neighbor] = current
