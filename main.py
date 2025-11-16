@@ -45,6 +45,25 @@ def draw_grid(screen, config, obstacles, start, goal, path):
             pygame.draw.rect(screen, colors["path"],
                              (x * cell_size, y * cell_size, cell_size, cell_size))
 
+    #Draw start and goal
+    pygame.draw.rect(screen,colors["start"],
+                     (start[0] * cell_size, start[1] * cell_size, cell_size, cell_size))
+    pygame.draw.rect(screen, colors["goal"],
+                     (goal[0] * cell_size, goal[1] * cell_size, cell_size, cell_size))
+
+    # Draw grid lines
+    if config["visualization"]["show_grid"]:
+        for x in range(0, grid["width"]):
+            pygame.draw.line(screen, (200, 200, 200),
+                             (x * cell_size, 0),
+                             (x * cell_size, grid["height"] * cell_size))
+        for y in range(0, grid["height"]):
+            pygame.draw.line(screen, (200, 200, 200),
+                             (0, y * cell_size),
+                             (grid["width"] * cell_size, y * cell_size))
+
+    pygame.display.flip()
+
 # Main Loop
 def main():
     config = load_config()
