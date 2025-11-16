@@ -34,6 +34,16 @@ def draw_grid(screen, config, obstacles, start, goal, path):
     cell_size = grid["cell_size"]
 
     screen.fill(colors["background"])
+    # Draw obstacles
+    for (x, y) in obstacles:
+        pygame.draw.rect(screen, colors["obstacle"],
+                         (x * cell_size, y * cell_size, cell_size, cell_size))
+
+    # Draw path
+    if path:
+        for (x, y) in path:
+            pygame.draw.rect(screen, colors["path"],
+                             (x * cell_size, y * cell_size, cell_size, cell_size))
 
 # Main Loop
 def main():
