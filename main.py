@@ -1,107 +1,93 @@
 import pygame
 import yaml
-
-from pathfinder import Pathfinder
 from graph_loader import GraphLoader
-import sys
+from pathfinder import Pathfinder
 
-# Load YAML Configuration
-def load_config(path="config.yaml"):
-    try:
-        with open(path, "r") as file:
-            config = yaml.safe_load(file)
-            return config
-    except FileNotFoundError:
-        print(" config.yaml not found. Please make sure it exists.")
-        sys.exit(1)
-    except yaml.YAMLError as e:
-        print(f" YAML parsing error: {e}")
-        sys.exit(1)
+def load_config():
+    with open("config.yaml") as f:
+        return yaml.safe_load(f)
 
-# Initialize Pygame
-def init_pygame(config):
-    pygame.init()
-    grid = config["grid"]
-    width, height, cell_size = grid["width"], grid["height"], grid["cell_size"]
+def find_closest_node(G, x, y):
+    return min(G.nodes, key=lambda n: (G.nodes[n]["x"] - x)**2 + (G.nodes[n]["y"] - y)**2)
 
-    screen = pygame.display.set_mode((width * cell_size, height * cell_size))
-    pygame.display.set_caption("Dynamic Path Re-Planner")
-    clock = pygame.time.Clock()
-    return screen, clock
-
-# Draw Grid / Objects
-def draw_grid(screen, config, obstacles, start, goal, path):
-    colors = config["colors"]
-    grid = config["grid"]
-    cell_size = grid["cell_size"]
-
-    screen.fill(colors["background"])
-    # Draw obstacles
-    for (x, y) in obstacles:
-        pygame.draw.rect(screen, colors["obstacle"],
-                         (x * cell_size, y * cell_size, cell_size, cell_size))
-
-    # Draw path
-    if path:
-        for (x, y) in path:
-            pygame.draw.rect(screen, colors["path"],
-                             (x * cell_size, y * cell_size, cell_size, cell_size))
-
-    #Draw start and goal
-    pygame.draw.rect(screen,colors["start"],
-                     (start[0] * cell_size, start[1] * cell_size, cell_size, cell_size))
-    pygame.draw.rect(screen, colors["goal"],
-                     (goal[0] * cell_size, goal[1] * cell_size, cell_size, cell_size))
-
-    # Draw grid lines
-    if config["visualization"]["show_grid"]:
-        for x in range(0, grid["width"]):
-            pygame.draw.line(screen, (200, 200, 200),
-                             (x * cell_size, 0),
-                             (x * cell_size, grid["height"] * cell_size))
-        for y in range(0, grid["height"]):
-            pygame.draw.line(screen, (200, 200, 200),
-                             (0, y * cell_size),
-                             (grid["width"] * cell_size, y * cell_size))
-
-    pygame.display.flip()
-
-# Main Loop
 def main():
     config = load_config()
-    screen, clock = init_pygame(config)
-    pathfinder = Pathfinder(config)
-    grid = config["grid"]
-    start = (1, 1)
-    goal = (grid["width"] - 2, grid["height"] - 2)
-    obstacles = set()
-    path = pathfinder.find_path(start, goal, obstacles)
+
+    # Load graph
+    loader = GraphLoader(config)
+    G = loader.load_graph()
+
+    W = config["visualization"]["window_width"]
+    H = config["visualization"]["window_height"]
+
+    loader.project_to_screen(W, H)
+    pathfinder = Pathfinder(G)
+
+    pygame.init()
+    screen = pygame.display.set_mode((W, H))
+    clock = pygame.time.Clock()
+
+    # pick start and goal
+    nodes = list(G.nodes)
+    start = nodes[100]
+    goal = nodes[1000]
 
     running = True
+    path = pathfinder.find_path(start, goal)
+
     while running:
+        screen.fill(config["visualization"]["background"])
         clock.tick(config["visualization"]["refresh_rate"])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-            # Draw obstacles dynamically
+            # Left-click = add obstacle
             if pygame.mouse.get_pressed()[0]:
-                x, y = pygame.mouse.get_pos()
-                grid_x, grid_y = x // grid["cell_size"], y // grid["cell_size"]
-                obstacles.add((grid_x, grid_y))
+                mx, my = pygame.mouse.get_pos()
+
+                # find closest graph node to clicked point
+                closest = min(G.nodes, key=lambda n:
+                    (loader.gps_to_screen(G.nodes[n]["x"], G.nodes[n]["y"])[0] - mx)**2 +
+                    (loader.gps_to_screen(G.nodes[n]["x"], G.nodes[n]["y"])[1] - my)**2
+                )
+
+                # block all edges from that node
+                for neighbor in G.neighbors(closest):
+                    pathfinder.block_edge(closest, neighbor)
 
             # Clear obstacles
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.key.key_code(config["interaction"]["clear_key"]):
-                    obstacles.clear()
+                if event.key == pygame.K_c:
+                    pathfinder.blocked_edges.clear()
 
-        # Recalculate path dynamically
-        path = pathfinder.find_path(start, goal, obstacles)
-        draw_grid(screen, config, obstacles, start, goal, path)
+        # Recompute path
+        path = pathfinder.find_path(start, goal)
+
+        # Draw edges
+        for u, v in G.edges():
+            x1, y1 = loader.gps_to_screen(G.nodes[u]["x"], G.nodes[u]["y"])
+            x2, y2 = loader.gps_to_screen(G.nodes[v]["x"], G.nodes[v]["y"])
+
+            if (u, v) in pathfinder.blocked_edges:
+                color = config["colors"]["obstacle_edge"]
+            else:
+                color = config["colors"]["edge"]
+
+            pygame.draw.line(screen, color, (x1, y1), (x2, y2), 1)
+
+        # Draw path
+        for i in range(len(path)-1):
+            u = path[i]
+            v = path[i+1]
+            x1, y1 = loader.gps_to_screen(G.nodes[u]["x"], G.nodes[u]["y"])
+            x2, y2 = loader.gps_to_screen(G.nodes[v]["x"], G.nodes[v]["y"])
+            pygame.draw.line(screen, config["colors"]["path"], (x1, y1), (x2, y2), 4)
+
+        pygame.display.flip()
 
     pygame.quit()
 
-# Run App
 if __name__ == "__main__":
     main()
