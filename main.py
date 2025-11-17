@@ -1,6 +1,8 @@
 import pygame
 import yaml
+
 from pathfinder import Pathfinder
+from graph_loader import GraphLoader
 import sys
 
 # Load YAML Configuration
