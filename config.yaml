@@ -15,7 +15,8 @@ colors:
   end_node: "#ff0066"
 
 map:
-  file: "data/map.osm"
+  place_name: "Bamberg, Germany"
+  network_type: "drive"
   simplify: true
   allowed_highways:
     - primary
