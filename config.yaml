@@ -1,43 +1,41 @@
-mode: "osm"
-
-grid:
-  width: 40
-  height: 30
-  cell_size: 20
-
-map:
-  place_name: "Bamberg, Germany"
-  network_type: "walk"
-  simplify: true
+visualization:
+  width: 1200
+  height: 800
+  background: "#1e1e1e"
+  zoom_factor: 1.0
+  offset_x: 0
+  offset_y: 0
 
 colors:
-  start: [0, 255, 0]
-  goal: [255, 0, 0]
-  path: [0, 0, 255]
-  obstacle: [80, 80, 80]
-  background: [255, 255, 255]
+  node: "#00ff00"
+  edge: "#888888"
+  highlighted_node: "#ffcc00"
+  highlighted_edge: "#ff8800"
+  start_node: "#0099ff"
+  end_node: "#ff0066"
 
-# OSM visualization colors
-map_colors:
-  node: [200, 200, 200]
-  edge: [100, 100, 100]
-  obstacle_edge: [200, 50, 50]
-
-algorithm:
-  type: "dstar_lite"
-  diagonal_movement: false
-
-visualization:
-  tool: "pygame"
-  refresh_rate: 60
-  show_grid: true     # used only in GRID mode
-  window_width: 1000  # used only in OSM mode
-  window_height: 800
+osm:
+  map_file: "data/map.osm"
+  simplify: true
+  use_highway_types:
+    - primary
+    - secondary
+    - tertiary
+    - residential
+    - service
+    - unclassified
 
 interaction:
-  draw_mode: "rectangle"  # used only in GRID mode
-  clear_key: "c"
+  scroll_zoom_speed: 0.1
+  drag_speed: 1.0
+  enable_node_selection: true
+  enable_edge_highlighting: true
+
+paths:
+  output_folder: "output/"
+  log_file: "logs/app.log"
 
 logging:
-  enable: true
-  save_path: "logs/run.log"
+  level: "INFO"
+  file_logging: true
+  console_logging: true
