@@ -1,18 +1,22 @@
 visualization:
   window_width: 1200
   window_height: 800
-  background: "#1e1e1e"
+  background: [255, 255, 255]
+  refresh_rate: 60
   zoom_factor: 1.0
   offset_x: 0
   offset_y: 0
 
 colors:
+  background: [255, 255, 255]   # or "#1e1e1e"
   node: "#00ff00"
   edge: "#888888"
-  highlighted_node: "#ffcc00"
-  highlighted_edge: "#ff8800"
   start_node: "#0099ff"
   end_node: "#ff0066"
+  highlighted_node: "#ffcc00"
+  highlighted_edge: "#ff8800"
+
+  path: [0, 0, 255]
 
 map:
   place_name: "Bamberg, Germany"
