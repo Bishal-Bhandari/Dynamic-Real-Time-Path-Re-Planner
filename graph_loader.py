@@ -16,7 +16,10 @@ class GraphLoader:
             simplify=cfg["simplify"]
         )
 
-        self.G = ox.add_edge_lengths(G)
+        # Add edge lengths (OSMnx 2.x compatible)
+        distance.add_edge_lengths(G)
+
+        self.G = G
         print("✅ Map loaded with", len(self.G.nodes), "nodes")
         return self.G
 
