@@ -8,7 +8,7 @@ visualization:
   offset_y: 0
 
 colors:
-  background: [255, 255, 255]   # or "#1e1e1e"
+  background: [255, 255, 255]
   node: "#00ff00"
   edge: "#888888"
   start_node: "#0099ff"

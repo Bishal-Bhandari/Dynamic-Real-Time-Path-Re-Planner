@@ -15,7 +15,7 @@ class GraphLoader:
             simplify=cfg["simplify"]
         )
 
-        # Add edge lengths (OSMnx 2.x compatible)
+        # Add edge lengths
         distance.add_edge_lengths(G)
 
         self.G = G
