@@ -36,7 +36,7 @@ def main():
     path = pathfinder.find_path(start, goal)
 
     while running:
-        screen.fill(config["visualization"]["background"])
+        screen.fill(config["colors"]["background"])
         clock.tick(config["visualization"]["refresh_rate"])
 
         for event in pygame.event.get():
