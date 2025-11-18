@@ -1,6 +1,6 @@
 visualization:
-  width: 1200
-  height: 800
+  window_width: 1200
+  window_height: 800
   background: "#1e1e1e"
   zoom_factor: 1.0
   offset_x: 0
