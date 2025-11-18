@@ -15,7 +15,7 @@ colors:
   end_node: "#ff0066"
   highlighted_node: "#ffcc00"
   highlighted_edge: "#ff8800"
-
+  obstacle_edge: [200, 50, 50]
   path: [0, 0, 255]
 
 map:
