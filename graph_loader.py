@@ -1,6 +1,5 @@
 import osmnx as ox
 from osmnx import distance
-import numpy as np
 
 class GraphLoader:
     def __init__(self, config):
@@ -8,7 +7,7 @@ class GraphLoader:
 
     def load_graph(self):
         cfg = self.config["map"]
-        print("📡 Downloading map from OpenStreetMap…")
+        print("getting map from OSM…")
 
         G = ox.graph_from_place(
             cfg["place_name"],
