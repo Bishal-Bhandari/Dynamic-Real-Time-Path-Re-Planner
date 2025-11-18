@@ -19,7 +19,7 @@ class GraphLoader:
         distance.add_edge_lengths(G)
 
         self.G = G
-        print("✅ Map loaded with", len(self.G.nodes), "nodes")
+        print("map loaded with", len(self.G.nodes), "nodes")
         return self.G
 
     def get_graph_bounds(self):
