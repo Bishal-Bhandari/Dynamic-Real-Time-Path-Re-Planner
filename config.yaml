@@ -14,6 +14,17 @@ colors:
   start_node: "#0099ff"
   end_node: "#ff0066"
 
+map:
+  file: "data/map.osm"
+  simplify: true
+  allowed_highways:
+    - primary
+    - secondary
+    - tertiary
+    - residential
+    - service
+    - unclassified
+
 osm:
   map_file: "data/map.osm"
   simplify: true
