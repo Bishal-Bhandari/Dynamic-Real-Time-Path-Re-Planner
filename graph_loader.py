@@ -1,4 +1,5 @@
 import osmnx as ox
+from osmnx import distance
 import numpy as np
 
 class GraphLoader:
