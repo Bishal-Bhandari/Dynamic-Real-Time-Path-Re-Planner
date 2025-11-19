@@ -19,7 +19,7 @@ colors:
   path: [0, 0, 255]
 
 map:
-  place_name: "Bamberg, Germany"
+  place_name: "Berlin, Germany"
   network_type: "drive"
   simplify: true
   allowed_highways:
