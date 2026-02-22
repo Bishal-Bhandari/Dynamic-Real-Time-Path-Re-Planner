@@ -76,7 +76,7 @@ def main():
                 color = config["colors"]["edge"]
 
             pygame.draw.line(screen, color, (x1, y1), (x2, y2), 1)
-
+#new comment for test added
         # Draw path
         for i in range(len(path)-1):
             u = path[i]
