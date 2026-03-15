@@ -21,7 +21,7 @@ class GraphLoader:
         self.G = G
         print("map loaded with", len(self.G.nodes), "nodes")
         return self.G
-    #test new
+    
     def get_graph_bounds(self):
         xs = [data["x"] for _, data in self.G.nodes(data=True)]
         ys = [data["y"] for _, data in self.G.nodes(data=True)]
